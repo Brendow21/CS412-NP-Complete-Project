@@ -1,8 +1,8 @@
 import random
 
 # Number of variables (n) and clauses (m)
-n = 10
-m = 100
+n = 1000
+m = 500
 
 # Generate m clauses, each with 3 random literals
 clauses = []
@@ -10,7 +10,13 @@ for _ in range(m):
     clause = [random.choice([i, -i]) for i in random.sample(range(1, n+1), 3)]
     clauses.append(clause)
 
+# Save to file
+file = open("test1.txt", "w")
+
 # Print the input in the required format
-print(f"{n} {m}")
+file.write(f"{n} {m}\n")
 for clause in clauses:
-    print(" ".join(map(str, clause)))
+    file.write(" ".join(map(str, clause)))
+    file.write("\n")
+
+file.close()
