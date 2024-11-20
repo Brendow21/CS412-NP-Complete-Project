@@ -12,3 +12,5 @@ Delevoped my approach to the problem with includes:
 ## Class 11/20:
 Worked on implementing the Max-3SAT reduction to independent set. I have got it working, but I just want to make sure that my logic
 is correct, so I still need to do some more testing.
+- NOTE: after looking over the textbook again, I think I may want to change the way I am interpretting MaxIndSet. In the textbook it mentions
+comparing the size of the largest independent set to the number of clauses. I will possibly be adding some more code for these comparisons 
