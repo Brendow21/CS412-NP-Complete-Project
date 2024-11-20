@@ -6,6 +6,9 @@
     This work complies with the JMU Honor Code.
 """
 
+import time
+
+
 def is_indep_set(n, adj_list, independent_set):
     # check all vertices in independent set
     for v in independent_set:
@@ -17,25 +20,35 @@ def is_indep_set(n, adj_list, independent_set):
                 return False
     
     return True
-    
+  
 
 def main():
-    # first line contains vertex count
-    n = int(input().strip())
+    start_time = time.time()
 
+    # first line is number of variables and number of clauses
+    n, m = int(input().strip().split())
+    
     adj_list = []
-    # next n lines has vertices and its neighbors
-    for i in range(n):
+    # read in the next m clauses
+    for i in range(m):
         edge_list = list(map(int, input().strip().split()))
         adj_list.append(edge_list)
 
-    # save the proposed independent set
-    independent_set = list(map(int, input().strip().split()))
-    # check if given list of verticces is an independent set
-    if is_indep_set(n, adj_list, independent_set):
-        print("TRUE")
-    else:
-        print("FALSE")
+    # draw edges between each clause 
+    for i in range(m):
+        x1, x2, x3 = int(input().strip().split())
+
+    # draw an edge between contradicting variables across the clauses
+
+    # run independent set on the ALL possible vertice combinations
+    
+    # pick one variable from each clause (as long as not contradicting)
+
+    # print results 
+
+
+    runtime = time.time() - start_time
+    print(f"\n Total runtime: {runtime:.6f} seconds \n")
 
 if __name__ == "__main__":
     main()
