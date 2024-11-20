@@ -8,7 +8,6 @@
 
 import time
 
-
 def is_indep_set(n, adj_list, independent_set):
     # check all vertices in independent set
     for v in independent_set:
@@ -20,32 +19,63 @@ def is_indep_set(n, adj_list, independent_set):
                 return False
     
     return True
-  
+
+
+def max_ind_set(graph):
+    if len(graph) == 0:
+        return []
+    
+    # select a vertex from the graph
+    v = next(iter(graph))
+    
+    # delete curr vertex from graph
+    graph2 = dict(graph)
+    del graph2[v]
+
+    # current vertex NOT selected -- make graph without v
+    without_v_graph = {}
+    for k in graph:
+        if k != v:
+            without_v_graph[k] = graph[k] - {v}
+
+    without_v = max_ind_set(without_v_graph)
+    
+    # Current vertex selected - make a new graph without v and its neighbors
+    with_v_graph = {}
+    for k in graph:
+        if k != v and not k in graph[v]:
+            with_v_graph[k] = graph[k] - set(graph[v])
+
+    with_v = [v] + max_ind_set(with_v_graph)
+
+    return max(with_v, without_v, key=len)
 
 def main():
     start_time = time.time()
 
     # first line is number of variables and number of clauses
-    n, m = int(input().strip().split())
+    n, m = map(int, input().strip().split())
     
-    adj_list = []
+    # create adj list where each key is a variable and value is a set of connected nodes
+    adj_list = {i: set() for i in range(-n, n+1) if i != 0}
+
     # read in the next m clauses
-    for i in range(m):
-        edge_list = list(map(int, input().strip().split()))
-        adj_list.append(edge_list)
+    for _ in range(m):
+        x1, x2, x3 = map(int, input().strip().split())
+        for x, y in [(x1, x2), (x1, x3), (x2, x3)]:
+            adj_list[x].add(y)
+            adj_list[y].add(x)
+        # add an edge between contradicting variables (x1 and -x1)
+        for x in (x1, x2, x3):
+            adj_list[x].add(-x)
+            adj_list[-x].add(x)
 
-    # draw edges between each clause 
-    for i in range(m):
-        x1, x2, x3 = int(input().strip().split())
+    print(f"\n Given {n} variables with {m} clauses...")
 
-    # draw an edge between contradicting variables across the clauses
-
-    # run independent set on the ALL possible vertice combinations
-    
-    # pick one variable from each clause (as long as not contradicting)
-
-    # print results 
-
+    # run max independent set on the graph
+    maxIndSet = max_ind_set(adj_list)
+    formatted = ", ".join(map(str, maxIndSet))
+    print(f"\n The Max Independent Set is of size '{len(maxIndSet)}' and includes vertices: {formatted}")
 
     runtime = time.time() - start_time
     print(f"\n Total runtime: {runtime:.6f} seconds \n")
