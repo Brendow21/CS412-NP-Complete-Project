@@ -54,7 +54,7 @@ def main():
             best_assignment = assignment
 
     # Print the results
-    print(f"\n{max_satisfied}")
+    print(f"{max_satisfied}")
     if best_assignment:
         # Print the satisfying assignment in the format x1, x2, ..., xn
         for i, val in enumerate(best_assignment, 1):
