@@ -3,3 +3,5 @@ Class 1: For the approximation, I will be greedy by selecting the best choice at
 Class 2: Wrote the approximation by randomly assigning True or False to each variable and looping through each clause checking if the caluse is valid. 
 
 Class 3: Reworking approximation to not randomly reassign all variables when looking for a better solution.
+
+Class 4: Worked on writing shell script to write test cases and start making slides for presentation
