@@ -1,0 +1,43 @@
+Constant Clauses(20) Test Results
+-----------------------------
+Test case: test20
+Execution time: 2.444 seconds
+Satisfied clauses: 20
+-----------------------------
+Test case: test21
+Execution time: 4.984 seconds
+Satisfied clauses: 20
+-----------------------------
+Test case: test22
+Execution time: 9.923 seconds
+Satisfied clauses: 20
+-----------------------------
+Test case: test23
+Execution time: 19.161 seconds
+Satisfied clauses: 20
+-----------------------------
+Test case: test24
+Execution time: 103.294 seconds
+Satisfied clauses: 20
+-----------------------------
+Test case: test25
+Execution time: 187.374 seconds
+Satisfied clauses: 20
+-----------------------------
+Test case: test26
+Execution time: 341.106 seconds
+Satisfied clauses: 20
+-----------------------------
+Test case: test28
+Execution time: 615.209 seconds
+Satisfied clauses: 20
+-----------------------------
+Test case: test29
+Execution time: 2206.621 seconds (36 minutes)
+Satisfied clauses: 20
+-----------------------------
+Test case: test30
+Execution time: 40 minutes+
+Satisfied clauses: Timed Out
+-----------------------------
+Results written to results.txt
