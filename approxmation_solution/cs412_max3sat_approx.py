@@ -4,7 +4,6 @@
 
     n: Number of variables.
     m: Number of clauses.
-    L: Maximum iterations of the while loop in main.
 
     Strategy Idea: 
         1. Randomization
@@ -29,7 +28,7 @@
 """
 import random
 
-def calculate_satisfied_clauses(clauses, assignments):
+def satisfied_clauses(clauses, assignments):
     """Calculate the number of satisfied clauses given the assignments."""
     satisfied_count = 0
     for clause in clauses:
@@ -49,7 +48,7 @@ def max_3sat_approx(n, clauses, assignments):
         for var in range(1, n + 1):
             # Flip the variable
             assignments[var] = not assignments[var]
-            current_count = calculate_satisfied_clauses(clauses, assignments)
+            current_count = satisfied_clauses(clauses, assignments)
 
             # If flipping improves, keep the change; otherwise, revert
             if current_count > best_count:
