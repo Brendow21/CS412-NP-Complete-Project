@@ -3,21 +3,19 @@
 # Program to test
 PROGRAM="../cs412_max3sat_approx.py"
 
-# Output results file
-RESULTS_FILE="results.txt"
-
-# Initialize the results file
-> "$RESULTS_FILE"
-echo "Test Results" >> "$RESULTS_FILE"
-echo "-----------------------------" >> "$RESULTS_FILE"
-
 # List of test case files
-TEST_CASES=("test100" "test500" "test1000" "test2000" "test10000")
+TEST_CASES=("test100" "test1000" "test10000" "test100000")
 
 # Loop over all test cases
 for TEST_CASE in "${TEST_CASES[@]}"
 do
     INPUT_FILE="${TEST_CASE}.txt"
+    RESULTS_FILE="${TEST_CASE}_results.txt"
+
+    # Initialize the results file for each test case
+    > "$RESULTS_FILE"
+    echo "Test Results for $TEST_CASE" >> "$RESULTS_FILE"
+    echo "-----------------------------" >> "$RESULTS_FILE"
 
     # Check if input file exists
     if [ ! -f "$INPUT_FILE" ]; then
@@ -33,24 +31,17 @@ do
     fi
 
     # Measure execution time and run the program
-    START_TIME=$(date +%s%N)
     OUTPUT=$(mktemp)
-    python3 "$PROGRAM" < "$INPUT_FILE" > "$OUTPUT"
-    END_TIME=$(date +%s%N)
-    EXECUTION_TIME_MS=$(( (END_TIME - START_TIME) / 1000000 ))
-    EXECUTION_TIME_SECONDS=$(awk "BEGIN {printf \"%.3f\", $EXECUTION_TIME_MS / 1000}")
-    SATISFIED_CLAUSES=$(head -n 1 "$OUTPUT")
+    python "$PROGRAM" < "$INPUT_FILE" > "$OUTPUT"
+    SATISFIED_CLAUSES=$(head "$OUTPUT")
 
     # Append results to the file
     {
         echo "Test case: $TEST_CASE"
-        echo "Execution time: $EXECUTION_TIME_SECONDS seconds"
-        echo "Satisfied clauses: $SATISFIED_CLAUSES"
+        echo "Satisfied Clauses: $SATISFIED_CLAUSES"
         echo "-----------------------------"
     } >> "$RESULTS_FILE"
 
     # Cleanup temporary output file
     rm "$OUTPUT"
 done
-
-echo "Results written to $RESULTS_FILE" >> "$RESULTS_FILE"
