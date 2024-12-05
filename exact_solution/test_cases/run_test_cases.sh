@@ -11,9 +11,23 @@ RESULTS_FILE="results.txt"
 echo "Test Results" >> "$RESULTS_FILE"
 echo "-----------------------------" >> "$RESULTS_FILE"
 
-# List of test case files
-#TEST_CASES=("test20" "test22" "test24" "test26" "test28")
-TEST_CASES=("test29")
+# List of test cases
+
+# Quick Test Set (Average Time: >3 Minutes)
+# TEST_CASES=("test20" "test21" "test22" "test23" "test24")
+
+# Short Length Test (Average Time: ~3 Minutes )
+# TEST_CASES=("test25")
+
+# Medium Length Test (Average Time: ~6 Minutes )
+# TEST_CASES=("test26")
+
+# Long Length Test (Average Time: ~10 Minutes )
+# TEST_CASES=("test28")
+
+# -----TEST CASES BELOW WILL TAKE OVER 20 MINUTES EACH-----
+# TEST_CASES=("test29")
+# TEST_CASES=("test30")
 
 # Loop over all test cases
 for TEST_CASE in "${TEST_CASES[@]}"
