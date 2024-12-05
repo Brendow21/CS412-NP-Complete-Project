@@ -14,7 +14,7 @@ echo "-----------------------------" >> "$RESULTS_FILE"
 # List of test cases
 
 # Quick Test Set (Average Time: >3 Minutes)
-# TEST_CASES=("test20" "test21" "test22" "test23" "test24")
+ TEST_CASES=("test20" "test21" "test22" "test23" "test24")
 
 # Short Length Test (Average Time: ~3 Minutes )
 # TEST_CASES=("test25")
