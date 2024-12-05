@@ -8,8 +8,7 @@
 
 import random
 import time
-import matplotlib.pyplot as plot
-from itertools import product
+# import matplotlib.pyplot as plot
 
 # helper function for determining clause satisfication -- BY BRENDAN!
 def calculate_satisfied_clauses(clauses, assignments):
@@ -111,7 +110,7 @@ def main():
     # print(f"{adj_list}")
 
     # run max independent set on the graph
-    maxIndSet = max_ind_set_random(adj_list)
+    maxIndSet = max_ind_set(adj_list)
     formatted = ", ".join(map(str, maxIndSet))
     # print(f"\n The Max Independent Set is of size '{len(maxIndSet)}' and includes vertices: {formatted}\n")
 
@@ -125,14 +124,14 @@ def main():
     satisifed_clauses = calculate_satisfied_clauses(clauses, assignments)
 
     # print num of satisfied clauses
-    print(f"\n{satisifed_clauses}")
+    print(f"{satisifed_clauses}")
 
     # print variables with their assignment
     for var in range(1, n + 1):
         print(f"{var} {'T' if assignments[var] else 'F'}")
 
     runtime = time.time() - start_time
-    print(f"\n Total runtime: {runtime:.6f} seconds \n")
+    # print(f"\n Total runtime: {runtime:.6f} seconds \n")
 
 if __name__ == "__main__":
     main()

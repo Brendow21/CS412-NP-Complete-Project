@@ -10,15 +10,17 @@ UL="\e[430m"
 echo -e "${BOLD}Test cases:"
 echo -e "\t${BOLD}test\tresult\truntime${NC}"
 
-PROG_TO_TEST=cs412_max3sat_augment.py
+PROG_TO_TEST="cs412_max3sat_augment.py"
 
 for test in test*
 do 
     cd $test
-    start = `python3 -c 'import time; print(time.time())'`
+    start=$(python3 -c 'import time; print(time.time())')
     python3 ../${PROG_TO_TEST} < input.txt > output.txt
-    end= `python3 -c 'import time; print(time.time())'`
+    end=$(python3 -c 'import time; print(time.time())')
 
+    runtime=$(echo "$end - $start" | bc)
+    
     if [ "$(head -n 2 expected.txt)" = "$(head -n 2 output.txt)" ]
     then
         echo -e "\t${test}\t${GREEN}passed\t${BLUE}${runtime}s${NC}"
