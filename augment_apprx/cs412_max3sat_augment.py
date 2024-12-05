@@ -6,9 +6,10 @@
     This work complies with the JMU Honor Code.
 """
 
+import collections
 import random
 import time
-# import matplotlib.pyplot as plot
+
 
 # helper function for determining clause satisfication -- BY BRENDAN!
 def calculate_satisfied_clauses(clauses, assignments):
@@ -22,8 +23,9 @@ def calculate_satisfied_clauses(clauses, assignments):
                 satisfied_count += 1
                 break
     return satisfied_count
-    
 
+
+"""Exponential version of Max Independent Set. This was used to validate my approximation solutions"""
 def max_ind_set(graph):
     if len(graph) == 0:
         return []
@@ -45,6 +47,8 @@ def max_ind_set(graph):
 
     return max(with_v, without_v, key=len)    
 
+
+"""Approximation of Max Independent Set that utilized randomization"""
 def max_ind_set_random(graph):
     remaining_graph = {k: set(neighbors) for k, neighbors in graph.items()}
     ind_set = []
@@ -64,22 +68,41 @@ def max_ind_set_random(graph):
         for u in to_remove:
             if u in remaining_graph:
                 remaining_graph.pop(u)
-            
-        # remove vertices from adj_list of remaining vertices
-        for remaining in remaining_graph.values():
-            remaining.difference_update(to_remove)
 
     return ind_set
 
-def main():
-    start_time = time.time()
+""" attempts to add non-conflicting vertices to the MIS and updates solution if it leads to a
+    more optimal result """
+def mis_local_search(graph, mis, clauses, assignments):
+    curr_mis = mis[:]
+    improvement = True
+    while improvement:
+        improvement = False
+        for v in list(graph.keys()):
+            if v not in curr_mis and all(u not in curr_mis for u in graph[v]):
+                improved_mis = curr_mis + [v]
+                improved_assgn = update_assignments(improved_mis, assignments.copy())
+                if calculate_satisfied_clauses(clauses, improved_assgn) > calculate_satisfied_clauses(clauses, assignments):
+                    assignments = improved_assgn
+                    curr_mis = improved_mis
+                    improvement = True
+                    break
 
-    # first line is number of variables and number of clauses
-    n, m = map(int, input().strip().split())
-    
-    # create a list of clauses
-    clauses = [tuple(map(int, input().strip().split())) for _ in range(m)]
+    return curr_mis
 
+
+"""Updates the variables that are in the independent set"""
+def update_assignments(maxIndSet, assignments):
+    for (i, var) in maxIndSet:
+        if var > 0:
+            assignments[abs(var)] = True
+        else:
+            assignments[abs(var)] = False
+    return assignments
+
+
+""" Builds the adjacency list, moved to separate function for cleanliness"""
+def build_graph(clauses):
     # read in the next m clauses, and built adj_list with 
     # unqiue vertex name that includes the clause it corresponds to
     adj_list = {}
@@ -104,34 +127,33 @@ def main():
                     adj_list[(i, x)].add((j, -x))
                     adj_list[(j, -x)].add((i, x))
 
-    # print(f"\n Given {n} variables with {m} clauses...\n")
+    return adj_list
 
-    # print(f"The graph has the following edges:\n")
-    # print(f"{adj_list}")
 
-    # run max independent set on the graph
-    maxIndSet = max_ind_set(adj_list)
-    formatted = ", ".join(map(str, maxIndSet))
-    # print(f"\n The Max Independent Set is of size '{len(maxIndSet)}' and includes vertices: {formatted}\n")
+def main():
+    # first line is number of variables and number of clauses
+    n, m = map(int, input().strip().split())
+    
+    clauses = [tuple(map(int, input().strip().split())) for _ in range(m)]
 
-    # set vertices in independent set to its inverse value
-    assignments = {i: False for i in range(1, n+1)}
-    for (clause_idx, var) in maxIndSet:
-        if var > 0:
-            assignments[abs(var)] = True
+    # clauses, assignments = initialize_assignments(n, m)
+    adj_list = build_graph(clauses)
 
-    # determine if 3SAT problem is satisfiable ?
+    assignments = {var: False for var in range(1, n + 1)}
+
+    mis = max_ind_set_random(adj_list)
+
+    refined_mis = mis_local_search(adj_list, mis, clauses, assignments)
+    update_assignments(refined_mis, assignments)
     satisifed_clauses = calculate_satisfied_clauses(clauses, assignments)
 
     # print num of satisfied clauses
+    formatted = ", ".join(map(str, refined_mis))
     print(f"{satisifed_clauses}")
 
     # print variables with their assignment
     for var in range(1, n + 1):
         print(f"{var} {'T' if assignments[var] else 'F'}")
-
-    runtime = time.time() - start_time
-    # print(f"\n Total runtime: {runtime:.6f} seconds \n")
 
 if __name__ == "__main__":
     main()
