@@ -1,0 +1,35 @@
+Test Results
+-----------------------------
+Test case: test3
+Execution time: 0.120 seconds
+Satisfied clauses: 19
+-----------------------------
+Test case: test5
+Execution time: 0.124 seconds
+Satisfied clauses: 19
+-----------------------------
+Test case: test8
+Execution time: 0.121 seconds
+Satisfied clauses: 20
+-----------------------------
+Test case: test10
+Execution time: 0.124 seconds
+Satisfied clauses: 20
+-----------------------------
+Test case: test12
+Execution time: 0.129 seconds
+Satisfied clauses: 20
+-----------------------------
+Test case: test15
+Execution time: 0.203 seconds
+Satisfied clauses: 20
+-----------------------------
+Test case: test17
+Execution time: 0.367 seconds
+Satisfied clauses: 20
+-----------------------------
+Test case: test20
+Execution time: 2.124 seconds
+Satisfied clauses: 20
+-----------------------------
+Results written to results.txt

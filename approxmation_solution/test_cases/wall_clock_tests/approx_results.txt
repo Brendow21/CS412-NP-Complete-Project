@@ -1,0 +1,71 @@
+Test Results
+-----------------------------
+Test case: test3
+Execution time: 0.120 seconds
+Satisfied clauses: 19
+-----------------------------
+Test case: test5
+Execution time: 0.116 seconds
+Satisfied clauses: 19
+-----------------------------
+Test case: test8
+Execution time: 0.113 seconds
+Satisfied clauses: 20
+-----------------------------
+Test case: test10
+Execution time: 0.114 seconds
+Satisfied clauses: 20
+-----------------------------
+Test case: test12
+Execution time: 0.116 seconds
+Satisfied clauses: 20
+-----------------------------
+Test case: test15
+Execution time: 0.125 seconds
+Satisfied clauses: 19
+-----------------------------
+Test case: test17
+Execution time: 0.126 seconds
+Satisfied clauses: 20
+-----------------------------
+Test case: test20
+Execution time: 0.120 seconds
+Satisfied clauses: 20
+-----------------------------
+Test case: test21
+Execution time: 0.120 seconds
+Satisfied clauses: 20
+-----------------------------
+Test case: test22
+Execution time: 0.123 seconds
+Satisfied clauses: 20
+-----------------------------
+Test case: test23
+Execution time: 0.127 seconds
+Satisfied clauses: 20
+-----------------------------
+Test case: test24
+Execution time: 0.122 seconds
+Satisfied clauses: 20
+-----------------------------
+Test case: test25
+Execution time: 0.117 seconds
+Satisfied clauses: 20
+-----------------------------
+Test case: test26
+Execution time: 0.116 seconds
+Satisfied clauses: 20
+-----------------------------
+Test case: test28
+Execution time: 0.116 seconds
+Satisfied clauses: 20
+-----------------------------
+Test case: test29
+Execution time: 0.120 seconds
+Satisfied clauses: 20
+-----------------------------
+Test case: test30
+Execution time: 0.124 seconds
+Satisfied clauses: 20
+-----------------------------
+Results written to wall_clock_tests/approx_results.txt
