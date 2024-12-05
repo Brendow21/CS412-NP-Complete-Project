@@ -1,12 +1,12 @@
 #!/bin/bash
 
 # Program to test
-PROGRAM="../../exact_solution/cs412_max3sat_exact.py"
-# PROGRAM="../cs412_max3sat_approx.py"
+# PROGRAM="../../exact_solution/cs412_max3sat_exact.py"
+PROGRAM="../cs412_max3sat_approx.py"
 
 
 # Output results file
-RESULTS_FILE="wall_clock_tests/clauses.txt"
+RESULTS_FILE="wall_clock_tests/approx_results.txt"
 
 # Initialize the results file
 > "$RESULTS_FILE"
@@ -14,9 +14,8 @@ echo "Test Results" >> "$RESULTS_FILE"
 echo "-----------------------------" >> "$RESULTS_FILE"
 
 # List of test case files
-TEST_CASES=("test1" "test2")
-# TEST_CASES=("test3" "test5" "test8" "test10" "test12" "test15" "test17"
-#             "test20" "test21" "test22" "test23" "test24" "test25" "test26" "test28" "test29" "test30")
+TEST_CASES=("test3" "test5" "test8" "test10" "test12" "test15" "test17"
+            "test20" "test21" "test22" "test23" "test24" "test25" "test26" "test28" "test29" "test30")
 
 # Loop over all test cases
 for TEST_CASE in "${TEST_CASES[@]}"
