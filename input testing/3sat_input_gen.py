@@ -1,8 +1,8 @@
 import random
 
 # Number of variables (n) and clauses (m)
-n = 1000
-m = 500
+n = 3
+m = 20
 
 # Generate m clauses, each with 3 random literals
 clauses = []

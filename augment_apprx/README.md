@@ -14,3 +14,9 @@ Worked on implementing the Max-3SAT reduction to independent set. I have got it 
 is correct, so I still need to do some more testing.
 - NOTE: after looking over the textbook again, I think I may want to change the way I am interpretting MaxIndSet. In the textbook it mentions
 comparing the size of the largest independent set to the number of clauses. I will possibly be adding some more code for these comparisons 
+
+## Class 12/4:
+- update graph representation so that vertices have unique names that indicate their clauses, I was going to use letters to represent clauses, but there is a chance that I 
+could receive an input that has over 26 clauses, and the English alphabet doesn't have more than 26 letters. So instead I decided to use a tuple representation with the clause number and variable number. 
+- Now that I have a graph with no repeating vertices, I was able to run independent set on the graph
+- 
