@@ -19,4 +19,3 @@ comparing the size of the largest independent set to the number of clauses. I wi
 - update graph representation so that vertices have unique names that indicate their clauses, I was going to use letters to represent clauses, but there is a chance that I 
 could receive an input that has over 26 clauses, and the English alphabet doesn't have more than 26 letters. So instead I decided to use a tuple representation with the clause number and variable number. 
 - Now that I have a graph with no repeating vertices, I was able to run independent set on the graph
-- 

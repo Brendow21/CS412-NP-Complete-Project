@@ -8,7 +8,6 @@
 
 import random
 import time
-# import matplotlib.pyplot as plot
 
 # helper function for determining clause satisfication -- BY BRENDAN!
 def calculate_satisfied_clauses(clauses, assignments):
@@ -23,7 +22,7 @@ def calculate_satisfied_clauses(clauses, assignments):
                 break
     return satisfied_count
     
-
+"""Exponential version of Max Independent Set. This was used to validate my approximation solutions"""
 def max_ind_set(graph):
     if len(graph) == 0:
         return []
@@ -45,6 +44,9 @@ def max_ind_set(graph):
 
     return max(with_v, without_v, key=len)    
 
+
+
+"""Approximation of Max Independent Set that utilized randomization"""
 def max_ind_set_random(graph):
     remaining_graph = {k: set(neighbors) for k, neighbors in graph.items()}
     ind_set = []
@@ -64,12 +66,43 @@ def max_ind_set_random(graph):
         for u in to_remove:
             if u in remaining_graph:
                 remaining_graph.pop(u)
-            
-        # remove vertices from adj_list of remaining vertices
-        for remaining in remaining_graph.values():
-            remaining.difference_update(to_remove)
 
     return ind_set
+
+def update_assignments(maxIndSet, assignments):
+    for (i, var) in maxIndSet:
+        if var > 0:
+            assignments[abs(var)] = True
+        else:
+            assignments[abs(var)] = False
+    return assignments
+
+"""Initialize assignments with the original values of each clause"""
+def initialize_assignments(n, m):
+    clauses = []
+    assignments = {}
+    for _ in range(m):
+        clause = tuple(map(int, input().strip().split()))
+        clauses.append(clause)
+        for var in clause:
+            var_idx = abs(var)
+            var_val = var > 0
+            if var_idx not in assignments:
+                assignments[var_idx] = var_val
+    return clauses, assignments
+
+""" Runs the code for a specified amount of time and records all the variations that 
+    occur due to randomness """
+def run_candidates(duration, function, *args):
+    start = time.time()
+    end = start + duration
+    with open('candidates.txt', 'w') as file:
+        while time.time() < end:
+            result = function(*args)
+            file.write(str(result) + '\n')
+
+
+def run(adj_list, clauses, assignments):
 
 def main():
     start_time = time.time()
@@ -78,7 +111,11 @@ def main():
     n, m = map(int, input().strip().split())
     
     # create a list of clauses
-    clauses = [tuple(map(int, input().strip().split())) for _ in range(m)]
+    # clauses = [tuple(map(int, input().strip().split())) for _ in range(m)]
+
+    clauses,assignments = initialize_assignments(n, m)
+
+    print(f"clauses: {clauses}")
 
     # read in the next m clauses, and built adj_list with 
     # unqiue vertex name that includes the clause it corresponds to
@@ -110,15 +147,16 @@ def main():
     # print(f"{adj_list}")
 
     # run max independent set on the graph
-    maxIndSet = max_ind_set(adj_list)
+    maxIndSet = max_ind_set_random(adj_list)
     formatted = ", ".join(map(str, maxIndSet))
-    # print(f"\n The Max Independent Set is of size '{len(maxIndSet)}' and includes vertices: {formatted}\n")
+    print(f"\n The Max Independent Set is of size '{len(maxIndSet)}' and includes vertices: {formatted}\n")
 
-    # set vertices in independent set to its inverse value
-    assignments = {i: False for i in range(1, n+1)}
+    # set variables in independent set to its inverse value
     for (clause_idx, var) in maxIndSet:
         if var > 0:
-            assignments[abs(var)] = True
+            assignments[abs(var)] = not assignments[abs(var)]
+
+    print(f"assignments: {assignments}")
 
     # determine if 3SAT problem is satisfiable ?
     satisifed_clauses = calculate_satisfied_clauses(clauses, assignments)

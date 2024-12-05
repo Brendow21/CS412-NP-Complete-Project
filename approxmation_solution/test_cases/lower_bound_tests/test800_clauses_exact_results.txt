@@ -1,0 +1,25 @@
+Test Results for test800
+-----------------------------
+Test case: test800
+Satisfied Clauses: 735
+1 F
+2 F
+3 T
+4 T
+5 T
+6 F
+7 T
+8 T
+9 F
+10 T
+11 T
+12 F
+13 T
+14 T
+15 F
+16 F
+17 F
+18 F
+19 F
+20 F
+-----------------------------
