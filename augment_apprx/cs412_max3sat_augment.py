@@ -91,7 +91,6 @@ def mis_local_search(graph, mis, clauses, assignments):
     return curr_mis
 
 
-
 """Updates the variables that are in the independent set"""
 def update_assignments(maxIndSet, assignments):
     for (i, var) in maxIndSet:
@@ -100,21 +99,6 @@ def update_assignments(maxIndSet, assignments):
         else:
             assignments[abs(var)] = False
     return assignments
-
-
-"""Initialize assignments with the original values of each clause"""
-def initialize_assignments(n, m):
-    clauses = []
-    assignments = {}
-    for _ in range(m):
-        clause = tuple(map(int, input().strip().split()))
-        clauses.append(clause)
-        for var in clause:
-            var_idx = abs(var)
-            var_val = var > 0
-            if var_idx not in assignments:
-                assignments[var_idx] = var_val
-    return clauses, assignments
 
 
 """ Builds the adjacency list, moved to separate function for cleanliness"""
