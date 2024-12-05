@@ -12,9 +12,10 @@ echo "Test Results" >> "$RESULTS_FILE"
 echo "-----------------------------" >> "$RESULTS_FILE"
 
 # List of test cases
+#-------------------------------------------------------------------
 
 # Quick Test Set (Average Time: >3 Minutes)
- TEST_CASES=("test20" "test21" "test22" "test23" "test24")
+TEST_CASES=("test20" "test21" "test22" "test23" "test24")
 
 # Short Length Test (Average Time: ~3 Minutes )
 # TEST_CASES=("test25")
@@ -28,6 +29,9 @@ echo "-----------------------------" >> "$RESULTS_FILE"
 # -----TEST CASES BELOW WILL TAKE OVER 20 MINUTES EACH-----
 # TEST_CASES=("test29")
 # TEST_CASES=("test30")
+
+#-------------------------------------------------------------------
+
 
 # Loop over all test cases
 for TEST_CASE in "${TEST_CASES[@]}"
@@ -54,13 +58,17 @@ do
     END_TIME=$(date +%s%N)
     EXECUTION_TIME_MS=$(( (END_TIME - START_TIME) / 1000000 ))
     EXECUTION_TIME_SECONDS=$(awk "BEGIN {printf \"%.3f\", $EXECUTION_TIME_MS / 1000}")
+
+    # Read the satisfied clauses and assignment output
     SATISFIED_CLAUSES=$(head -n 1 "$OUTPUT")
+    ASSIGNMENTS=$(tail -n +2 "$OUTPUT")  # Capture all lines starting from the second line
 
     # Append results to the file
     {
         echo "Test case: $TEST_CASE"
         echo "Execution time: $EXECUTION_TIME_SECONDS seconds"
         echo "Satisfied clauses: $SATISFIED_CLAUSES"
+        echo "$ASSIGNMENTS"
         echo "-----------------------------"
     } >> "$RESULTS_FILE"
 
