@@ -1,7 +1,0 @@
-Test Results
------------------------------
-Test case: test29
-Execution time: 2206.621 seconds (36 minutes)
-Satisfied clauses: 20
------------------------------
-Results written to results.txt
