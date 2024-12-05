@@ -71,6 +71,26 @@ def max_ind_set_random(graph):
 
     return ind_set
 
+""" attempts to add non-conflicting vertices to the MIS and updates solution if it leads to a
+    more optimal result """
+def mis_local_search(graph, mis, clauses, assignments):
+    curr_mis = mis[:]
+    improvement = True
+    while improvement:
+        improvement = False
+        for v in list(graph.keys()):
+            if v not in curr_mis and all(u not in curr_mis for u in graph[v]):
+                improved_mis = curr_mis + [v]
+                improved_assgn = update_assignments(improved_mis, assignments.copy())
+                if calculate_satisfied_clauses(clauses, improved_assgn) > calculate_satisfied_clauses(clauses, assignments):
+                    assignments = improved_assgn
+                    curr_mis = improved_mis
+                    improvement = True
+                    break
+
+    return curr_mis
+
+
 
 """Updates the variables that are in the independent set"""
 def update_assignments(maxIndSet, assignments):
@@ -83,18 +103,18 @@ def update_assignments(maxIndSet, assignments):
 
 
 """Initialize assignments with the original values of each clause"""
-# def initialize_assignments(n, m):
-#     clauses = []
-#     assignments = {}
-#     for _ in range(m):
-#         clause = tuple(map(int, input().strip().split()))
-#         clauses.append(clause)
-#         for var in clause:
-#             var_idx = abs(var)
-#             var_val = var > 0
-#             if var_idx not in assignments:
-#                 assignments[var_idx] = var_val
-#     return clauses, assignments
+def initialize_assignments(n, m):
+    clauses = []
+    assignments = {}
+    for _ in range(m):
+        clause = tuple(map(int, input().strip().split()))
+        clauses.append(clause)
+        for var in clause:
+            var_idx = abs(var)
+            var_val = var > 0
+            if var_idx not in assignments:
+                assignments[var_idx] = var_val
+    return clauses, assignments
 
 
 """ Builds the adjacency list, moved to separate function for cleanliness"""
@@ -132,51 +152,19 @@ def main():
     
     clauses = [tuple(map(int, input().strip().split())) for _ in range(m)]
 
+    # clauses, assignments = initialize_assignments(n, m)
     adj_list = build_graph(clauses)
 
     assignments = {var: False for var in range(1, n + 1)}
-    
-    best_result = 0
-    last_results = collections.deque(maxlen=5)
-    max_duration = 60
-    max_runs = 100
-    run_count = 0
 
-    start_time = time.time()
-    
-    # run multiple times to get best result
-    while True:
-        # constraints to prevent long run time
-        if time.time() - start_time >= max_duration or run_count >= max_runs:
-            break
+    mis = max_ind_set_random(adj_list)
 
-        # run max independent set on the graph
-        maxIndSet = max_ind_set_random(adj_list)
-        update_assignments(maxIndSet, assignments)
-        satisifed_clauses = calculate_satisfied_clauses(clauses, assignments)
-
-        if satisifed_clauses > best_result:
-            best_result = satisifed_clauses
-
-        last_results.append(satisifed_clauses)
-
-        # print(f"\n The Max Independent Set is of size '{len(maxIndSet)}' and includes vertices: {formatted}\n")
-        if len(last_results) == 5 and max(last_results) - min(last_results) < 1:
-            break
-
-        run_count += 1
-
-    # maxIndSet = max_ind_set_random(adj_list)
-    #  # set variables in independent set to its inverse value
-    # for (clause_idx, var) in maxIndSet:
-    #     if var > 0:
-    #         assignments[abs(var)] = not assignments[abs(var)]
-    
-    # satisifed_clauses = calculate_satisfied_clauses(clauses, assignments)
-
+    refined_mis = mis_local_search(adj_list, mis, clauses, assignments)
+    update_assignments(refined_mis, assignments)
+    satisifed_clauses = calculate_satisfied_clauses(clauses, assignments)
 
     # print num of satisfied clauses
-    formatted = ", ".join(map(str, maxIndSet))
+    formatted = ", ".join(map(str, refined_mis))
     print(f"{satisifed_clauses}")
 
     # print variables with their assignment

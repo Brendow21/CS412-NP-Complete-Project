@@ -10,7 +10,7 @@ BLUE="\033[0;34m"
 UL="\e[430m"
 
 echo -e "${BOLD}Test cases:"
-echo -e "\t${BOLD}test\tresult\taugment\truntime${NC}"
+echo -e "\t${BOLD}test\t\taugment\t\truntime\t\tapprox${NC}"
 
 
 PROG_TO_TEST=../cs412_max3sat_augment.py
@@ -26,9 +26,9 @@ do
 
     if [ "$(head -n 1 expected.txt)" = "$(head -n 1 output.txt)" ]
     then
-        echo -e "\t${test}\t${GREEN}passed\t$(head -n 1 output.txt)\t${BLUE}${runtime}\t$(head -n 1 expected.txt)s${NC}"
+        echo -e "\t${test}\t\t$(head -n 1 output.txt)\t\t${BLUE}${runtime}s${NC}\t\t$(head -n 1 expected.txt)"
     else
-        echo -e "\t${test}\t${RED}failed\t$(head -n 1 output.txt)\t${BLUE}${runtime}s${NC}"
+        echo -e "\t${test}\t\t$(head -n 1 output.txt)\t\t${BLUE}${runtime}s${NC}\t\t$(head -n 1 expected.txt)"
     fi
 
     cd ../
