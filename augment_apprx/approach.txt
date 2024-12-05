@@ -1,0 +1,1 @@
+a clause is considered satisifed if at least one of its literals is set to a value that it makes it 'True'
