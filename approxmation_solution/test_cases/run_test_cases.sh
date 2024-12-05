@@ -2,15 +2,21 @@
 
 # Program to test
 PROGRAM="../cs412_max3sat_approx.py"
+# PROGRAM="../../exact_solution/cs412_max3sat_exact.py"
+
 
 # List of test case files
-TEST_CASES=("test100" "test1000" "test10000" "test100000")
+TEST_CASES=("test100" "test200" "test400" "test600" "test800")
 
 # Loop over all test cases
 for TEST_CASE in "${TEST_CASES[@]}"
 do
-    INPUT_FILE="${TEST_CASE}.txt"
-    RESULTS_FILE="${TEST_CASE}_results.txt"
+    INPUT_FILE="lower_bound_tests/${TEST_CASE}_clauses.txt"
+    # Results for Approx
+    RESULTS_FILE="lower_bound_tests/${TEST_CASE}_clauses_approx_results.txt"
+    # Results for Exact
+    # RESULTS_FILE="lower_bound_tests/${TEST_CASE}_clauses_exact_results.txt"
+
 
     # Initialize the results file for each test case
     > "$RESULTS_FILE"
@@ -33,12 +39,14 @@ do
     # Measure execution time and run the program
     OUTPUT=$(mktemp)
     python "$PROGRAM" < "$INPUT_FILE" > "$OUTPUT"
-    SATISFIED_CLAUSES=$(head "$OUTPUT")
+    SATISFIED_CLAUSES=$(head -n 1 "$OUTPUT")
+    REMAINING_OUTPUT=$(tail -n +2 "$OUTPUT")
 
     # Append results to the file
     {
         echo "Test case: $TEST_CASE"
         echo "Satisfied Clauses: $SATISFIED_CLAUSES"
+        echo "$REMAINING_OUTPUT"
         echo "-----------------------------"
     } >> "$RESULTS_FILE"
 
