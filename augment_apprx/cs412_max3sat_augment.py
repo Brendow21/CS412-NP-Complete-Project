@@ -83,18 +83,18 @@ def update_assignments(maxIndSet, assignments):
 
 
 """Initialize assignments with the original values of each clause"""
-def initialize_assignments(n, m):
-    clauses = []
-    assignments = {}
-    for _ in range(m):
-        clause = tuple(map(int, input().strip().split()))
-        clauses.append(clause)
-        for var in clause:
-            var_idx = abs(var)
-            var_val = var > 0
-            if var_idx not in assignments:
-                assignments[var_idx] = var_val
-    return clauses, assignments
+# def initialize_assignments(n, m):
+#     clauses = []
+#     assignments = {}
+#     for _ in range(m):
+#         clause = tuple(map(int, input().strip().split()))
+#         clauses.append(clause)
+#         for var in clause:
+#             var_idx = abs(var)
+#             var_val = var > 0
+#             if var_idx not in assignments:
+#                 assignments[var_idx] = var_val
+#     return clauses, assignments
 
 
 """ Builds the adjacency list, moved to separate function for cleanliness"""
@@ -130,15 +130,26 @@ def main():
     # first line is number of variables and number of clauses
     n, m = map(int, input().strip().split())
     
-    clauses,assignments = initialize_assignments(n, m)
+    clauses = [tuple(map(int, input().strip().split())) for _ in range(m)]
 
     adj_list = build_graph(clauses)
 
-    # assignments = {var: False for var in range(1, n + 1)}
+    assignments = {var: False for var in range(1, n + 1)}
+    
     best_result = 0
     last_results = collections.deque(maxlen=5)
+    max_duration = 60
+    max_runs = 100
+    run_count = 0
+
+    start_time = time.time()
     
+    # run multiple times to get best result
     while True:
+        # constraints to prevent long run time
+        if time.time() - start_time >= max_duration or run_count >= max_runs:
+            break
+
         # run max independent set on the graph
         maxIndSet = max_ind_set_random(adj_list)
         update_assignments(maxIndSet, assignments)
@@ -152,6 +163,16 @@ def main():
         # print(f"\n The Max Independent Set is of size '{len(maxIndSet)}' and includes vertices: {formatted}\n")
         if len(last_results) == 5 and max(last_results) - min(last_results) < 1:
             break
+
+        run_count += 1
+
+    # maxIndSet = max_ind_set_random(adj_list)
+    #  # set variables in independent set to its inverse value
+    # for (clause_idx, var) in maxIndSet:
+    #     if var > 0:
+    #         assignments[abs(var)] = not assignments[abs(var)]
+    
+    # satisifed_clauses = calculate_satisfied_clauses(clauses, assignments)
 
 
     # print num of satisfied clauses
