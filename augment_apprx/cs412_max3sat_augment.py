@@ -6,8 +6,10 @@
     This work complies with the JMU Honor Code.
 """
 
+import collections
 import random
 import time
+
 
 # helper function for determining clause satisfication -- BY BRENDAN!
 def calculate_satisfied_clauses(clauses, assignments):
@@ -21,7 +23,8 @@ def calculate_satisfied_clauses(clauses, assignments):
                 satisfied_count += 1
                 break
     return satisfied_count
-    
+
+
 """Exponential version of Max Independent Set. This was used to validate my approximation solutions"""
 def max_ind_set(graph):
     if len(graph) == 0:
@@ -43,7 +46,6 @@ def max_ind_set(graph):
     with_v = [v] + max_ind_set(with_v_graph)
 
     return max(with_v, without_v, key=len)    
-
 
 
 """Approximation of Max Independent Set that utilized randomization"""
@@ -69,6 +71,8 @@ def max_ind_set_random(graph):
 
     return ind_set
 
+
+"""Updates the variables that are in the independent set"""
 def update_assignments(maxIndSet, assignments):
     for (i, var) in maxIndSet:
         if var > 0:
@@ -76,6 +80,7 @@ def update_assignments(maxIndSet, assignments):
         else:
             assignments[abs(var)] = False
     return assignments
+
 
 """Initialize assignments with the original values of each clause"""
 def initialize_assignments(n, m):
@@ -91,32 +96,9 @@ def initialize_assignments(n, m):
                 assignments[var_idx] = var_val
     return clauses, assignments
 
-""" Runs the code for a specified amount of time and records all the variations that 
-    occur due to randomness """
-def run_candidates(duration, function, *args):
-    start = time.time()
-    end = start + duration
-    with open('candidates.txt', 'w') as file:
-        while time.time() < end:
-            result = function(*args)
-            file.write(str(result) + '\n')
 
-
-def run(adj_list, clauses, assignments):
-
-def main():
-    start_time = time.time()
-
-    # first line is number of variables and number of clauses
-    n, m = map(int, input().strip().split())
-    
-    # create a list of clauses
-    # clauses = [tuple(map(int, input().strip().split())) for _ in range(m)]
-
-    clauses,assignments = initialize_assignments(n, m)
-
-    print(f"clauses: {clauses}")
-
+""" Builds the adjacency list, moved to separate function for cleanliness"""
+def build_graph(clauses):
     # read in the next m clauses, and built adj_list with 
     # unqiue vertex name that includes the clause it corresponds to
     adj_list = {}
@@ -141,35 +123,44 @@ def main():
                     adj_list[(i, x)].add((j, -x))
                     adj_list[(j, -x)].add((i, x))
 
-    # print(f"\n Given {n} variables with {m} clauses...\n")
+    return adj_list
 
-    # print(f"The graph has the following edges:\n")
-    # print(f"{adj_list}")
 
-    # run max independent set on the graph
-    maxIndSet = max_ind_set_random(adj_list)
-    formatted = ", ".join(map(str, maxIndSet))
-    print(f"\n The Max Independent Set is of size '{len(maxIndSet)}' and includes vertices: {formatted}\n")
+def main():
+    # first line is number of variables and number of clauses
+    n, m = map(int, input().strip().split())
+    
+    clauses,assignments = initialize_assignments(n, m)
 
-    # set variables in independent set to its inverse value
-    for (clause_idx, var) in maxIndSet:
-        if var > 0:
-            assignments[abs(var)] = not assignments[abs(var)]
+    adj_list = build_graph(clauses)
 
-    print(f"assignments: {assignments}")
+    # assignments = {var: False for var in range(1, n + 1)}
+    best_result = 0
+    last_results = collections.deque(maxlen=5)
+    
+    while True:
+        # run max independent set on the graph
+        maxIndSet = max_ind_set_random(adj_list)
+        update_assignments(maxIndSet, assignments)
+        satisifed_clauses = calculate_satisfied_clauses(clauses, assignments)
 
-    # determine if 3SAT problem is satisfiable ?
-    satisifed_clauses = calculate_satisfied_clauses(clauses, assignments)
+        if satisifed_clauses > best_result:
+            best_result = satisifed_clauses
+
+        last_results.append(satisifed_clauses)
+
+        # print(f"\n The Max Independent Set is of size '{len(maxIndSet)}' and includes vertices: {formatted}\n")
+        if len(last_results) == 5 and max(last_results) - min(last_results) < 1:
+            break
+
 
     # print num of satisfied clauses
+    formatted = ", ".join(map(str, maxIndSet))
     print(f"{satisifed_clauses}")
 
     # print variables with their assignment
     for var in range(1, n + 1):
         print(f"{var} {'T' if assignments[var] else 'F'}")
-
-    runtime = time.time() - start_time
-    # print(f"\n Total runtime: {runtime:.6f} seconds \n")
 
 if __name__ == "__main__":
     main()
