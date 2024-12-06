@@ -1,0 +1,31 @@
+Test Results
+-----------------------------
+Test case: test100
+Execution time: 0.079 seconds
+Satisfied clauses: 93
+-----------------------------
+Test case: test200
+Execution time: 0.082 seconds
+Satisfied clauses: 174
+-----------------------------
+Test case: test400
+Execution time: 0.126 seconds
+Satisfied clauses: 365
+-----------------------------
+Test case: test600
+Execution time: 0.179 seconds
+Satisfied clauses: 530
+-----------------------------
+Test case: test800
+Execution time: 0.215 seconds
+Satisfied clauses: 704
+-----------------------------
+Test case: test1000
+Execution time: 0.417 seconds
+Satisfied clauses: 863
+-----------------------------
+Test case: test2000
+Execution time: 1.190 seconds
+Satisfied clauses: 1755
+-----------------------------
+Results written to other_tests/aug_results.txt
