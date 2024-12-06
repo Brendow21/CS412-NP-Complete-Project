@@ -6,16 +6,16 @@ PROGRAM="../cs412_max3sat_approx.py"
 
 
 # List of test case files
-TEST_CASES=("test100" "test200" "test400" "test600" "test800")
+TEST_CASES=("test100" "test200" "test400" "test600" "test800" "test1000" "test2000")
 
 # Loop over all test cases
 for TEST_CASE in "${TEST_CASES[@]}"
 do
-    INPUT_FILE="lower_bound_tests/${TEST_CASE}_clauses.txt"
+    INPUT_FILE="large_tests/${TEST_CASE}_clauses.txt"
     # Results for Approx
-    RESULTS_FILE="lower_bound_tests/${TEST_CASE}_clauses_approx_results.txt"
+    RESULTS_FILE="large_tests/${TEST_CASE}_clauses_approx_results.txt"
     # Results for Exact
-    # RESULTS_FILE="lower_bound_tests/${TEST_CASE}_clauses_exact_results.txt"
+    # RESULTS_FILE="large_tests/${TEST_CASE}_clauses_exact_results.txt"
 
 
     # Initialize the results file for each test case
